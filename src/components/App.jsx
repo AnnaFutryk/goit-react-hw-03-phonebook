@@ -17,6 +17,27 @@ export class App extends Component {
     filter: '',
   };
 
+  //збереження контактів до localStorage
+  componentDidMount() {
+    const LS_KEY = 'contacts';
+    const contactsFromLS = localStorage.getItem(LS_KEY);
+
+    if (contactsFromLS)
+      this.setState({
+        contacts: JSON.parse(contactsFromLS),
+      });
+  }
+
+  //відображення контактів з localStorage
+  componentDidUpdate(_, prevState) {
+    const LS_KEY = 'contacts';
+    const { contacts } = this.state;
+
+    if (prevState.contacts !== contacts) {
+      localStorage.setItem(LS_KEY, JSON.stringify(contacts));
+    }
+  }
+
   // додавання нового контакту в список контактів
   createContact = data => {
     const newContact = {
